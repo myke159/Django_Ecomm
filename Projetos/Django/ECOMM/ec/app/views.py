@@ -12,7 +12,14 @@ from django.db.models import Q
 # Create your views here.
 
 def home(request):
-    return render(request, "app/home.html")
+    user = request.user
+    cart = Cart.objects.filter(user=user)
+    numprod = 0
+    for p in cart:
+        numprod +=1
+    totalprod = numprod
+
+    return render(request, 'app/home.html', locals())
 
 def about(request):
     return render(request, "app/about.html")
