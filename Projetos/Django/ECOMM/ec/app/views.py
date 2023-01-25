@@ -11,39 +11,52 @@ from django.db.models import Q
 
 # Create your views here.
 
+def prodincar(request):
+    if request.user.is_authenticated:
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        numprod = 0
+        for p in cart:
+            numprod +=1
+        totalprod = numprod
+        return totalprod
+
+
+
+
 def home(request):
-    user = request.user
-    cart = Cart.objects.filter(user=user)
-    numprod = 0
-    for p in cart:
-        numprod +=1
-    totalprod = numprod
+    totalprod = prodincar(request)
 
     return render(request, 'app/home.html', locals())
 
 def about(request):
-    return render(request, "app/about.html")
+    totalprod = prodincar(request)
+    return render(request, "app/about.html", locals())
 
 def contact(request):
-    return render(request, "app/contact.html")
+    totalprod = prodincar(request)
+    return render(request, "app/contact.html", locals())
 
 
 
 
 class CategoryView(View):
     def get(self, request, val):
+        totalprod = prodincar(request)
         product = Product.objects.filter(category=val)
         title = Product.objects.filter(category=val).values("title")
         return render(request, "app/category.html", locals())
 
 class CategoryTitle(View):
     def get(self, request, val):
+        totalprod = prodincar(request)
         product = Product.objects.filter(title=val)
         title = Product.objects.filter(category=product[0].category).values("title")
         return render(request, "app/category.html", locals())
 
 class ProductDetail(View):
     def get(self, request, pk):
+        totalprod = prodincar(request)
         product = Product.objects.get(pk=pk)
         return render(request, "app/productdetail.html", locals())
 
@@ -65,6 +78,7 @@ class CustomerRegistrationView(View):
 
 class ProfileView(View):
     def get(self, request):
+        totalprod = prodincar(request)
         form = CustomerProfileForm()
         return render(request, 'app/profile.html', locals())
     def post(self, request):
@@ -85,11 +99,13 @@ class ProfileView(View):
         return redirect('address')
 
 def Address(request):
+    totalprod = prodincar(request)
     add = Customer.objects.filter(user=request.user)
     return render(request, 'app/address.html', locals())
 
 class UpdateAddress(View):
     def get(self, request, pk):
+        totalprod = prodincar(request)
         add = Customer.objects.get(pk=pk)
         form = CustomerProfileForm(instance=add)
         return render(request, 'app/updateAddress.html', locals())
@@ -114,10 +130,24 @@ def add_to_cart(request):
     user = request.user
     product_id = request.GET.get('prod_id')
     product = Product.objects.get(id=product_id)
-    Cart(user=user, product=product).save()
+
+    c = Cart.objects.filter(user=user)
+    products = []
+    for p in c:
+        products.append(p.product)
+
+    if product in products:
+        c = Cart.objects.get(Q(product=product_id) & Q(user=request.user))
+        c.quantity+=1
+        c.save()
+    else:
+        Cart(user=user, product=product).save()
+        return redirect('/cart')
+
     return redirect('/cart')
     
 def show_cart(request):
+    totalprod = prodincar(request)
     user = request.user
     cart = Cart.objects.filter(user=user)
     amount=0
@@ -131,6 +161,7 @@ def show_cart(request):
 
 class checkout(View):
     def get(self, request):
+        totalprod = prodincar(request)
         user=request.user
         add = Customer.objects.filter(user=user)
         cart_items = Cart.objects.filter(user=user)
