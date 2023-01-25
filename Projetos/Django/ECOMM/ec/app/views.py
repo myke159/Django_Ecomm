@@ -8,6 +8,7 @@ from django.contrib import messages
 from time import sleep
 from django.utils.formats import localize
 from django.db.models import Q
+from .utils import Moeda
 
 # Create your views here.
 
@@ -154,7 +155,9 @@ def show_cart(request):
     for p in cart:
         value = p.quantity * p.product.discounted_price
         amount = amount + value
-    totalamount = amount + 40
+
+    totalamount = Moeda(amount + 40)
+    amount = Moeda(amount)
 
     return render(request, 'app/addtocar.html', locals())
 
@@ -169,7 +172,8 @@ class checkout(View):
         for p in cart_items:
             value = p.quantity * p.product.discounted_price
             famount = famount + value
-        totalamount = famount + 40
+        totalamount = Moeda(famount + 40)
+        famount = Moeda(famount)
         return render(request, 'app/checkout.html', locals())
 
 def plus_cart(request):
@@ -184,7 +188,8 @@ def plus_cart(request):
         for p in cart:
             value = p.quantity * p.product.discounted_price
             amount = amount + value
-        totalamount = amount + 40
+        totalamount = Moeda(amount + 40)
+        amount = Moeda(amount)
         data = {
             'quantity':c.quantity,
             'amount':amount,
@@ -197,7 +202,7 @@ def minus_cart(request):
         prod_id = request.GET['prod_id']
         c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
 
-        
+
         if c.quantity > 1:
             c.quantity-=1
             c.save()
@@ -207,7 +212,9 @@ def minus_cart(request):
             for p in cart:
                 value = p.quantity * p.product.discounted_price
                 amount = amount + value
-            totalamount = amount + 40
+            totalamount = Moeda(amount + 40)
+            amount = Moeda(amount)
+            
             
             data = {
                 'quantity':c.quantity,
@@ -222,7 +229,8 @@ def minus_cart(request):
             for p in cart:
                 value = p.quantity * p.product.discounted_price
                 amount = amount + value
-            totalamount = amount + 40
+            totalamount = Moeda(amount + 40)
+            amount = Moeda(amount)
             
             data = {
                 'quantity':c.quantity,
@@ -242,7 +250,8 @@ def remove_cart(request):
         for p in cart:
             value = p.quantity * p.product.discounted_price
             amount = amount + value
-        totalamount = amount + 40
+        totalamount = Moeda(amount + 40)
+        amount = Moeda(amount)
         data = {
             'amount':amount,
             'totalamount':totalamount,
