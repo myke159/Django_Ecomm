@@ -16,7 +16,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container-fluid">
+        <div class="container-fluid  px-5">
             <a class="navbar-brand" href="{% url 'home' %}">
                 <img src="{% static "app/images/neel.png" %}" width="60" height="60">
             </a>
@@ -54,6 +54,7 @@
                 <div>
                     {% if request.user.is_authenticated %}
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        
                         <li class="nav-item dropdown mx-2">
                             <a class="nav-link dropdown-toggle text-white text-capitalize" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ request.user }} </a>
                             <ul class="dropdown-menu" aria-labelledby="profileDropdown">
@@ -64,10 +65,7 @@
                             </ul>
                         </li>
                         <li class="nav-item mx-2">
-                            <a href="{% url 'showcart' %}" class="nav-link text-white">Cart 4</a>
-                        </li>
-                        <li class="nav-item mx-2">
-                            <a href="#" class="nav-link text-white">Wishlist 4</a>
+                            <a href="{% url 'showcart' %}" class="nav-link text-white">Cart {{ request. }}</a>
                         </li>
                         {% else %}
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">

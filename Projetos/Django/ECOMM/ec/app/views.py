@@ -22,6 +22,7 @@ def contact(request):
 
 
 
+
 class CategoryView(View):
     def get(self, request, val):
         product = Product.objects.filter(category=val)
