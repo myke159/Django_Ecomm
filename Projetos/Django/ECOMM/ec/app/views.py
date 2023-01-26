@@ -59,6 +59,7 @@ class ProductDetail(View):
     def get(self, request, pk):
         totalprod = prodincar(request)
         product = Product.objects.get(pk=pk)
+        products = Product.objects.all()
         return render(request, "app/productdetail.html", locals())
 
 
