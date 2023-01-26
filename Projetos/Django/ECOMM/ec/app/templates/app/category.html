@@ -8,26 +8,30 @@
             <div class="col-sm-3">
                 <div class="list-group">
                     {% for val in title %}
-                        <a href="{% url 'category-title' val.title %}" class="list-group-item list-group-item-action text-capitalize" aria-current="true">{{val.title}}</a>
+                        <a href="{% url 'category-title' val.title %}" class="carrd list-group-item list-group-item-action text-capitalize" aria-current="true">{{val.title}}</a>
                     {% endfor %}
                 </div>
             </div>
             <div class="col-sm-9">
-                <div class="col">
+                <div class="container">
+                    <div class="row">
                     {% for prod in product %}
-                        <div class-"col text-center mb-4">
-                            <a href="{% url 'productdetail' prod.id %}" class="btn">
-                                <div>
-                                    <img src="{{prod.product_image.url}}" width="250px" heigth="150px"/>
-                                    <div class="font-weight-bold text-capitalize">{{prod.title}}</div>
-                                    <div class="font-weight-bold text-success">
-                                        R$ {{prod.discounted_price}}/-
-                                        <small class="font-weight-light text-danger"><del>{{prod.selling_price}}</del></small>
+                        <div class="carrd col-3 text-center col-md-2 m-2 border bg-light">
+                            <div class="mb-1">
+                                <a href="{% url 'productdetail' prod.id %}" class="btn">
+                                    <div >
+                                        <img src="{{prod.product_image.url}}" width="120px" heigth="75px"/>
+                                        <div class="font-weight-bold text-capitalize">{{prod.title}}</div>
+                                        <div class="font-weight-bold text-success">
+                                            R$ {{prod.discounted_price}}/-
+                                            <small class="font-weight-light text-danger"><del>{{prod.selling_price}}</del></small>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
+                            </div>
                         </div>
                     {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>

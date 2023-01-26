@@ -152,12 +152,15 @@ def show_cart(request):
     user = request.user
     cart = Cart.objects.filter(user=user)
     amount=0
+
     for p in cart:
         value = p.quantity * p.product.discounted_price
         amount = amount + value
 
+
     totalamount = Moeda(amount + 40)
     amount = Moeda(amount)
+
 
     return render(request, 'app/addtocar.html', locals())
 

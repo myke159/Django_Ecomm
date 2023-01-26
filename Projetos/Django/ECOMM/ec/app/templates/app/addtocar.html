@@ -10,14 +10,13 @@
          <div class="col-sm-8">
             <div class="card">
                <div class="card-body">
-                  <h3>Carrinho</h3>
                   {% for item in cart %}
                   <div class="row">
-                     <div class="col-sm-3 text-center align-self-center"><img src="{{item.product.product_image.url}}" alt="" srcset="" class="img-fluid img-thumbnail shadow-sm" height="150" width="150"></div>
+                     <div class="col-sm-3 text-center align-self-center "><a href="{% url 'category' item.product.category %}"><img src="{{item.product.product_image.url}}" alt="" srcset="" class="img-fluid img-thumbnail shadow-sm"></a></div>
                      <div class="col-sm-9">
                         <div>
-                           <h5>{{item.product.title}}</h5>
-                           <p class='mb-2 text-muted small'>{{item.product.description}}</p>
+                              <h5><a class="text-black" href="{% url 'category' item.product.category %}">{{item.product.title}}</a></h5>
+                           <p class='mb-2 text-muted small'>{{item.product.description | slice:"0:255"}}</p>
                            <div class="my-3">
                               <label for="quantity">Quantidade:</label>
                               <a class="minus-cart btn" pid={{item.product.id}}><i class="fas fa-minus-square fa-lg"></i></a>

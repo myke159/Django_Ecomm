@@ -85,3 +85,17 @@
 .goodnesssec a{
     text-decoration: none;
 }
+
+/*------------------------------------------------------------------------------------------------*/
+
+.carrd:hover {
+    transform: scale(1.05);
+}
+
+.carrd {
+    transition: all 0.3s;
+}
+
+body {
+    background-color: #F5F5F5;
+}
